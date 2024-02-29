@@ -5,7 +5,6 @@ header("Content-Type: application/json");
 header("Access-Control-Allow-Methods: GET, POST, DELETE, PUT");
 
 $pageDir = '/services/';
-['intro' => $intro] = require __DIR__ . $pageDir . 'miscellaneous.php';
 [ 'postCategories' => $postCategories] = require __DIR__ . $pageDir . 'categories.php';
 [ 'getCategories' => $getCategories] = require __DIR__ . $pageDir . 'categories.php';
 [ 'deleteCategories' => $deleteCategory] = require __DIR__ . $pageDir . 'categories.php';
@@ -18,7 +17,7 @@ $request = $_SERVER['REQUEST_URI'];
 switch ($request) {
     case '':
     case '/':
-        echo $intro("API feita por @lsprgabriel"); 
+        echo "API feita por @lsprgabriel"; 
         break;
     case '/api/phpinfo':
         require __DIR__ . $pageDir . 'phpinfo.php';
