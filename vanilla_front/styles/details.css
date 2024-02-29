@@ -1,0 +1,76 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+}
+
+.navbar {
+    display: flex;
+    background-color: #7f62ff;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 5px;
+}
+
+.navbar .logo {
+    padding: 5px;
+    font-size: 30px;
+}
+
+.navbar li {
+    margin: 10px;
+    padding: 5px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #000;
+}
+
+.navbar ul {
+    display: flex;
+    list-style: none;
+}
+
+.product-section {
+    margin: 10px;
+}
+
+.product-section > p {
+    color: rgb(131, 131, 131);
+}
+
+.price-section {
+    display: flex;
+}
+
+.product-name p {
+    color: rgb(112, 112, 112);
+    font-size: 15px;
+}
+
+.product-section {
+    width: 50vw;
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    height: 10px;
+    border-collapse: collapse;
+    margin: 10px;
+
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #000;
+}
+
+th:nth-last-child(-n+3),
+td:nth-last-child(-n+3) {
+    width: 3vw;
+    border-left: 1px solid rgb(160 160 160);
+}

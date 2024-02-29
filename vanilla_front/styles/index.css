@@ -1,0 +1,147 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+}
+
+.navbar {
+    display: flex;
+    background-color: #7f62ff;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 5px;
+}
+
+.navbar .logo {
+    padding: 5px;
+    font-size: 30px;
+}
+
+.navbar li {
+    margin: 10px;
+    padding: 5px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #000;
+}
+
+.navbar ul {
+    display: flex;
+    list-style: none;
+}
+
+button {
+    width: 100.5%;
+    padding: 7px;
+    border: 0;
+    background-color: #7f62ff;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    margin: 30px;
+}
+
+.vl {
+    border-left: 2px solid #d3d3d3;
+    height: 500px;
+}
+
+.form-container {
+    width: 40vw;
+    margin: 10px;
+}
+
+.form-container button {
+    width: 100%;
+    padding: 7px;
+    background-color: #7f62ff;
+    border: 0;
+}
+
+.form-input {
+    margin-bottom: 5px;
+}
+
+.form-input select {
+    width: 99.2%;
+    height: 25px;
+    margin: 10;
+}
+
+.form-inputs {
+    display: flex;
+    width: 100%;
+    margin-bottom: 7px;
+}
+
+.form-inputs input {
+    height: 25px;
+    margin-right: 3px;
+}
+
+.amount-input {
+    width: 100%;
+}
+
+.amount-input input {
+    width: 98.2%;
+}
+
+.table-section {
+    width: 40vw;
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    height: 10px;
+    border-collapse: collapse;
+    margin: 10px;
+
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #000;
+}
+
+th:nth-last-child(-n+3), 
+td:nth-last-child(-n+4) {
+    width: 3vw;
+    border-left: 1px solid rgb(160 160 160);
+}
+
+td:nth-last-child(-n+1) {
+    width: 1px;
+    border: 0;
+}
+
+.tax-total {
+    margin: 10px;
+}
+
+.tax-total-input {
+    margin: 10px;
+}
+
+.tax-total-input input {
+    border: 0;
+}
+
+.table-section-buttons {
+    margin: 10px;
+}
+
+.table-section-buttons button{
+    width: 8vw;
+    padding: 7px;
+    border: 0;
+    background-color: #7f62ff;
+}

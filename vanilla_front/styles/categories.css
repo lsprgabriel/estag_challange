@@ -1,0 +1,81 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+}
+
+.navbar {
+    display: flex;
+    background-color: #7f62ff;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 5px;
+}
+
+.navbar .logo {
+    padding: 5px;
+    font-size: 30px;
+}
+
+.navbar li {
+    margin: 10px;
+    padding: 5px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #000;
+}
+
+.navbar ul {
+    display: flex;
+    list-style: none;
+}
+.form-section {
+    margin: 10px;
+    width: 30vw;
+}
+
+.form-section input {
+    width: 100%;
+    height: 25px;
+    margin-bottom: 3px;
+}
+
+button {
+    width: 100.5%;
+    padding: 7px;
+    border: 0;
+    background-color: #7f62ff;
+}
+
+.table-section {
+    width: 50vw;
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    height: 10px;
+    border-collapse: collapse;
+    margin: 10px;
+
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #000;
+}
+
+th:nth-last-child(-n+2),
+td:nth-last-child(-n+3) {
+    width: 3vw;
+    border-left: 1px solid rgb(160 160 160);
+}
+
+td:nth-last-child(-n+1) {
+    width: 1px;
+    border: 0;
+}
