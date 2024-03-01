@@ -166,9 +166,10 @@
                     let tax = document.getElementById('tax').value;
                     let price = document.getElementById('price').value;
                     let total = amount * price;
+                    code = parseInt(name);
                     name = getProductByCode(parseInt(name));
 
-                    addCartData({name, amount, tax, price, total});
+                    addCartData({code, name, amount, tax, price, total});
 
                     document.getElementById('cartForm').reset();
                     location.reload();
@@ -197,31 +198,25 @@
                             total: totalPrice,
                             tax: totalTax
                         })
-                    });
-
-                    cart.forEach((product) => {
-                        fetch('http://localhost/api/order_items', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded'
-                            },
-                            body: new URLSearchParams({
-                                order_code: 1,
-                                product_code: 1,
-                                amount: product.amount,
-                                tax: product.tax,
-                                price: product.price,
-                                total: product.total
-                            })
-                        });
-                    });
-
-                    localStorage.removeItem('cart_document');
-                    location.reload();
+                    }).then(() => {
+                        cart.forEach((product) => {
+                                fetch('http://localhost/api/order_items', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded'
+                                    },
+                                    body: new URLSearchParams({
+                                        order_code: 1,
+                                        product_code: product.code,
+                                        amount: product.amount,
+                                        price: product.price,
+                                        tax: product.tax
+                                    })
+                                });
+                            });
+                        })
                 }
-
-            </script>
-        ";
+            </script>";
     
     ?>
 </body>
