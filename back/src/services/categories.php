@@ -16,14 +16,9 @@ return [
     },
     'postCategories' => function ($category, $tax) {
 
-        $code = file_get_contents('http://localhost/api/categories');
-        $code = json_decode($code);
-        $code = count($code) + 1;
-
-        $stmt = myDB->prepare('INSERT INTO categories (name, tax, code) VALUES (:category, :tax, :code)');
+        $stmt = myDB->prepare('INSERT INTO categories (name, tax) VALUES (:category, :tax)');
         $stmt->bindParam(':category', $category);
         $stmt->bindParam(':tax', $tax);
-        $stmt->bindParam(':code', $code);
         $stmt->execute();
 
         return json_encode(['message' => 'Category added']);

@@ -17,12 +17,7 @@ return [
     },
     'postProducts' => function ($name, $price, $amount, $category) {
 
-        $code = file_get_contents('http://localhost/api/products');
-        $code = json_decode($code);
-        $code = count($code) + 1;
-
-        $stmt = myDB->prepare('INSERT INTO products (code, name, price, amount, category_code) VALUES (:code, :name, :price, :amount, :category)');
-        $stmt->bindParam(':code', $code);
+        $stmt = myDB->prepare('INSERT INTO products (name, price, amount, category_code) VALUES (:name, :price, :amount, :category)');
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':price', $price);
         $stmt->bindParam(':amount', $amount);
