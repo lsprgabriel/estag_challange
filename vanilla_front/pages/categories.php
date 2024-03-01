@@ -52,7 +52,7 @@
                         echo "<tr>";
                         echo "<td>" . $category->code . "</td>";
                         echo "<td>" . $category->name . "</td>";
-                        echo "<td>" . $category->tax . "</td>";
+                        echo "<td>" . $category->tax . "%</td>";
                         echo "<td><button onClick='onCategoryDelete(". $category->code .")'>Delete</button></td>";
                         echo "</tr>";
                     }

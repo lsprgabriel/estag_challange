@@ -72,29 +72,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php   
-                        echo "
-                        <script>
-                            doc = 'cart_document';
-                            getCartStorage = () => JSON.parse(localStorage.getItem(doc)) ?? []
-
-                            const cart = getCartStorage();
-
-                            cart.forEach((product, index) => {
-                                const { name, amount, price, total } = product;
-                                document.querySelector('#cartTable tbody').innerHTML += `
-                                    <tr>
-                                        <td>` + name + `</td>
-                                        <td>` + price + `</td>
-                                        <td>` + amount + `</td>
-                                        <td>` + total + `</td>
-                                        <td><button onClick='deleteCartData(${index})'>Delete</button></td>
-                                    </tr>
-                                `
-                            });
-
-                        </script>";
-                    ?>
                 </tbody>
             </table>
             <div class="tax-total">
@@ -113,12 +90,42 @@
             </div>
         </section>
     </main>
+      <?php   
+        echo "
+        <script>
+            doc = 'cart_document';
+            getCartStorage = () => JSON.parse(localStorage.getItem(doc)) ?? []
+
+            const cart = getCartStorage();
+
+            let totalTax = 0;
+            let totalPrice = 0;
+            cart.forEach((product, index) => {
+                const { name, amount, tax, price, total } = product;
+                totalTax += (tax * amount);
+                totalPrice += total;
+                document.querySelector('#cartTable tbody').innerHTML += `
+                    <tr>
+                        <td>` + name + `</td>
+                        <td>` + price + `</td>
+                        <td>` + amount + `</td>
+                        <td>` + total + `</td>
+                        <td><button onClick='deleteCartData(` + index + `)'>Delete</button></td>
+                    </tr>
+                `
+            });
+
+            document.getElementById('totalTax').placeholder = totalTax.toFixed(2);
+            document.getElementById('totalPrice').placeholder = totalPrice.toFixed(2);
+
+        </script>";
+    ?>
     <?php 
         echo "
             <script>
                 document.getElementById('productsSelector').addEventListener('change', (e) => {
                     let product = " . json_encode($products) . ".find((product) => product.code == e.target.value);
-                    document.getElementById('tax').value = getTaxByCode(product.category_code);
+                    document.getElementById('tax').value = ((getTaxByCode(product.category_code) / 100) * product.price).toFixed(2);
                     document.getElementById('price').value = product.price;
                 });
 
@@ -164,6 +171,52 @@
                     addCartData({name, amount, tax, price, total});
 
                     document.getElementById('cartForm').reset();
+                    location.reload();
+                }
+
+                function onCancel(){
+                    localStorage.removeItem('cart_document');
+                    location.reload();
+                }
+
+                function onFinish(){
+                    let cart = getCartStorage();
+                    let totalTax = 0;
+                    let totalPrice = 0;
+                    cart.forEach((product) => {
+                        totalTax += (product.tax * product.amount);
+                        totalPrice += product.total;
+                    });
+
+                    fetch('http://localhost/api/orders', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                            total: totalPrice,
+                            tax: totalTax
+                        })
+                    });
+
+                    cart.forEach((product) => {
+                        fetch('http://localhost/api/order_items', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: new URLSearchParams({
+                                order_code: 1,
+                                product_code: 1,
+                                amount: product.amount,
+                                tax: product.tax,
+                                price: product.price,
+                                total: product.total
+                            })
+                        });
+                    });
+
+                    localStorage.removeItem('cart_document');
                     location.reload();
                 }
 
