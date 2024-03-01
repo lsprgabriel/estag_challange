@@ -45,18 +45,6 @@ const productsQuery = (code) => {
     return productObject;
 }
 
-document.getElementById("productsSelector").addEventListener("click", (e) => {
-    document.getElementById("tax").value = productsQuery(e.target.value).unitTax
-    document.getElementById("price").value = productsQuery(e.target.value).unitPrice
-})
-
-productsStorage.map((product) => {
-    let select = document.getElementById("productsSelector");
-    let option = document.createElement("option");
-    option.text = product.product;
-    option.value = product.code;
-    select.add(option);
-})
 
 let totalPrice = 0;
 let totalTax = 0;

@@ -15,6 +15,8 @@
     <style>
         <?php include './styles/index.css'; ?>
     </style>
+
+
     <link rel="stylesheet" href="./styles/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,7 +35,7 @@
     </header>
     <main>
         <section class="form-container">
-            <form onsubmit="onCartSubmit(this)">
+            <form id="cartForm" onsubmit="onCartSubmit(this)">
                 <div class="form-input">
                     <select id="productsSelector" name="product" required>
                         <option value="" disabled selected>Select a product</option>
@@ -55,8 +57,8 @@
                         <input type="number" placeholder="Price" name="price" id="price" disabled>
                     </div>
                 </div>
-                <button type="submit">Add Product</button>
             </form>
+            <button onclick="onCartSubmit();">Add Product</button>
         </section>
         <div class="vl"></div>
         <section class="table-section">
@@ -70,6 +72,29 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php   
+                        echo "
+                        <script>
+                            doc = 'cart_document';
+                            getCartStorage = () => JSON.parse(localStorage.getItem(doc)) ?? []
+
+                            const cart = getCartStorage();
+
+                            cart.forEach((product, index) => {
+                                const { name, amount, price, total } = product;
+                                document.querySelector('#cartTable tbody').innerHTML += `
+                                    <tr>
+                                        <td>` + name + `</td>
+                                        <td>` + price + `</td>
+                                        <td>` + amount + `</td>
+                                        <td>` + total + `</td>
+                                        <td><button onClick='deleteCartData(${index})'>Delete</button></td>
+                                    </tr>
+                                `
+                            });
+
+                        </script>";
+                    ?>
                 </tbody>
             </table>
             <div class="tax-total">
@@ -93,7 +118,6 @@
             <script>
                 document.getElementById('productsSelector').addEventListener('change', (e) => {
                     let product = " . json_encode($products) . ".find((product) => product.code == e.target.value);
-                    console.log(product);
                     document.getElementById('tax').value = getTaxByCode(product.category_code);
                     document.getElementById('price').value = product.price;
                 });
@@ -102,6 +126,47 @@
                     let category = " . json_encode($categories) . ".find((category) => category.code == code);
                     return category.tax;
                 }
+
+                let doc = 'cart_document';
+                const getCartStorage = () => JSON.parse(localStorage.getItem(doc)) ?? []
+                const setCartStorage = (data) => localStorage.setItem(doc, JSON.stringify(data)) 
+
+                const addCartData = (data) => {
+                    const dbCart = getCartStorage();
+                    dbCart.push(data);
+                    setCartStorage(dbCart);
+                }
+
+                const deleteCartData = (index) => {
+                    const dbCart = getCartStorage();
+                    dbCart.splice(index, 1);
+                    setCartStorage(dbCart);
+                    location.reload();
+                }
+
+                function getProductByCode(code){
+                    let products = " . json_encode($products) . ";
+                    for(let i = 0; i < products.length; i++){
+                        if(products[i].code == code){
+                            return products[i].name;
+                        }
+                    }
+                }
+
+                function onCartSubmit(){
+                    let name = document.getElementById('productsSelector').value;
+                    let amount = document.getElementById('amount').value;
+                    let tax = document.getElementById('tax').value;
+                    let price = document.getElementById('price').value;
+                    let total = amount * price;
+                    name = getProductByCode(parseInt(name));
+
+                    addCartData({name, amount, tax, price, total});
+
+                    document.getElementById('cartForm').reset();
+                    location.reload();
+                }
+
             </script>
         ";
     

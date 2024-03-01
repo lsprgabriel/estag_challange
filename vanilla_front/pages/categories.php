@@ -28,10 +28,10 @@
     <main>
     <section class="form-section">
         <form id="categoryForm">
-            <div class="">
+            <div>
                 <input type="text" placeholder="Category name" name="category" id="categoryValue" >
             </div>
-            <div class="">
+            <div>
                 <input type="number" placeholder="Tax" name="tax" id="taxValue" >
             </div>
         </form>
@@ -56,7 +56,6 @@
                         echo "<td><button onClick='onCategoryDelete(". $category->code .")'>Delete</button></td>";
                         echo "</tr>";
                     }
-                    
                     echo '
                         <script>
                             async function postCategory(){
@@ -79,7 +78,6 @@
                             }
                         </script>
                     ';
-
                 ?>
             </tbody>
         </table>

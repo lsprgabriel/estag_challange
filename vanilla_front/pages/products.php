@@ -80,7 +80,6 @@
                         echo "<td>" . $product->price . "</td>";
                         echo "<script>
                                 getCategoryNameByCode(" . $product->category_code . ").then((name) => {
-                                    console.log(name);
                                     document.write('<td>' + name + '</td>');
                                 });
 

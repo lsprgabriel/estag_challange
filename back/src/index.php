@@ -1,7 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
-header("Content-Type: application/json");
 header("Access-Control-Allow-Methods: GET, POST, DELETE, PUT");
 
 $pageDir = '/services/';
@@ -17,7 +16,19 @@ $request = $_SERVER['REQUEST_URI'];
 switch ($request) {
     case '':
     case '/':
-        echo "API feita por @lsprgabriel"; 
+        $response = [
+            'message' => 'API feita por @lsprgabriel',
+            'endpoints' => [
+                '/api/phpinfo' => 'Mostra informações do PHP',
+                '/api/categories' => 'GET: Retorna todas as categorias | POST: Adiciona uma categoria',
+                '/api/products' => 'GET: Retorna todos os produtos | POST: Adiciona um produto',
+                '/api/categories/{id}' => 'DELETE: Deleta uma categoria',
+                '/api/products/{id}' => 'DELETE: Deleta um produto'
+            ]
+        ];
+
+        echo json_encode($response);
+        
         break;
     case '/api/phpinfo':
         require __DIR__ . $pageDir . 'phpinfo.php';
