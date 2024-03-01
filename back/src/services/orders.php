@@ -17,8 +17,7 @@ return [
     },
     'postOrders' => function ($total, $tax) {
 
-        $stmt = myDB->prepare('INSERT INTO orders (total, tax) VALUES (:name, :amount, :tax, :price, :total)');
-        $stmt->bindParam(':code', $code);
+        $stmt = myDB->prepare('INSERT INTO orders (total, tax) VALUES (:total, :tax)');
         $stmt->bindParam(':total', $total);
         $stmt->bindParam(':tax', $tax);
         $stmt->execute();

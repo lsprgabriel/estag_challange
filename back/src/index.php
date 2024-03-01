@@ -10,6 +10,10 @@ $pageDir = '/services/';
 [ 'postProducts' => $postProducts] = require __DIR__ . $pageDir . 'products.php';
 [ 'getProducts' => $getProducts] = require __DIR__ . $pageDir . 'products.php';
 [ 'deleteProduct' => $deleteProduct] = require __DIR__ . $pageDir . 'products.php';
+[ 'postOrders' => $postOrders] = require __DIR__ . $pageDir . 'orders.php';
+[ 'getOrders' => $getOrders] = require __DIR__ . $pageDir . 'orders.php';
+[ 'postOrderItems' => $postOrderItems] = require __DIR__ . $pageDir . 'items.php';
+[ 'getOrderItems' => $getOrderItems] = require __DIR__ . $pageDir . 'items.php';
 
 $request = $_SERVER['REQUEST_URI'];
 
@@ -23,7 +27,9 @@ switch ($request) {
                 '/api/categories' => 'GET: Retorna todas as categorias | POST: Adiciona uma categoria',
                 '/api/products' => 'GET: Retorna todos os produtos | POST: Adiciona um produto',
                 '/api/categories/{id}' => 'DELETE: Deleta uma categoria',
-                '/api/products/{id}' => 'DELETE: Deleta um produto'
+                '/api/products/{id}' => 'DELETE: Deleta um produto',
+                '/api/orders' => 'GET: Retorna todos os pedidos | POST: Adiciona um pedido',
+                '/api/order_items' => 'GET: Retorna todos os itens dos pedidos | POST: Adiciona um item ao pedido'
             ]
         ];
 
@@ -47,6 +53,22 @@ switch ($request) {
             break;
         } else {
             echo $getProducts();
+            break;
+        }
+    case '/api/orders':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $postOrders($_POST['total'], $_POST['tax']);
+            break;
+        } else {
+            echo $getOrders();
+            break;
+        }
+    case '/api/order_items':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $postOrderItems($_POST['order_code'], $_POST['product_code'], $_POST['amount'], $_POST['tax'], $_POST['price']);
+            break;
+        } else {
+            echo $getOrderItems();
             break;
         }
     default:
