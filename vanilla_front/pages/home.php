@@ -174,6 +174,11 @@
 
                     const product = productsData.find((product) => product.code == code);
 
+                    if (amount < 1) {
+                        alert('Amount must be greater than 0');
+                        return;
+                    } 
+
                     if (amount > product.amount) {
                         alert('Not enough stock');
                         return;

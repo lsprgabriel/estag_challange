@@ -29,10 +29,10 @@
     <section class="form-section">
         <form id="categoryForm">
             <div>
-                <input type="text" placeholder="Category name" name="category" id="categoryValue" >
+                <input type="text" placeholder="Category name" name="category" id="categoryValue" required>
             </div>
             <div>
-                <input type="number" placeholder="Tax" name="tax" id="taxValue" >
+                <input type="number" placeholder="Tax" name="tax" id="taxValue" required>
             </div>
         </form>
         <button onclick='postCategory();'>Add Category</button>
@@ -59,6 +59,10 @@
                     echo '
                         <script>
                             async function postCategory(){
+                                if(!document.getElementById("categoryForm").checkValidity()){
+                                    alert("Please fill all fields");
+                                    return;
+                                }
                                 await fetch("http://localhost/api/categories", {
                                     method: "POST",
                                     headers: {

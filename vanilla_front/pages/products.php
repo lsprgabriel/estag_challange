@@ -99,6 +99,10 @@
                     echo '
                         <script>
                             async function postProduct(){
+                                if(!document.getElementById("productForm").checkValidity()){
+                                    alert("Please fill all fields");
+                                    return;
+                                }
                                 await fetch("http://localhost/api/products", {
                                     method: "POST",
                                     headers: {
