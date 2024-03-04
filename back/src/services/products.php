@@ -17,6 +17,11 @@ return [
     },
     'postProducts' => function ($name, $price, $amount, $category) {
 
+        $name = filter_var($name, FILTER_SANITIZE_STRING);
+        $price = filter_var($price, FILTER_SANITIZE_NUMBER_FLOAT);
+        $amount = filter_var($amount, FILTER_SANITIZE_NUMBER_INT);
+        $category = filter_var($category, FILTER_SANITIZE_NUMBER_INT);
+
         $stmt = myDB->prepare('INSERT INTO products (name, price, amount, category_code) VALUES (:name, :price, :amount, :category)');
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':price', $price);

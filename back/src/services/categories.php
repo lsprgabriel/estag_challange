@@ -15,7 +15,9 @@ return [
         return json_encode($mock_data);
     },
     'postCategories' => function ($category, $tax) {
-
+        // sanitize category and tax
+        $category = filter_var($category, FILTER_SANITIZE_STRING);
+        $tax = filter_var($tax, FILTER_SANITIZE_NUMBER_FLOAT);
         $stmt = myDB->prepare('INSERT INTO categories (name, tax) VALUES (:category, :tax)');
         $stmt->bindParam(':category', $category);
         $stmt->bindParam(':tax', $tax);
