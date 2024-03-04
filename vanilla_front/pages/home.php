@@ -180,7 +180,7 @@
                     location.reload();
                 }
 
-                function onFinish(){
+                function onFinish() {
                     let cart = getCartStorage();
                     let totalTax = 0;
                     let totalPrice = 0;
@@ -198,25 +198,35 @@
                             total: totalPrice,
                             tax: totalTax
                         })
-                    }).then(() => {
-                        cart.forEach((product) => {
+                    }).then(async (order) => {
+
+                            const response = await fetch('http://localhost/api/orders')
+
+                            const data = await response.json();
+
+                            const orderCode = data[data.length - 1].code;
+
+                            cart.forEach((product) => {
                                 fetch('http://localhost/api/order_items', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/x-www-form-urlencoded'
                                     },
                                     body: new URLSearchParams({
-                                        order_code: 1,
+                                        order_code: orderCode,
                                         product_code: product.code,
                                         amount: product.amount,
-                                        price: product.price,
-                                        tax: product.tax
+                                        tax: product.tax,
+                                        price: product.price
                                     })
-                                });
-                            });
+                                })
+                            })
+                        }).then(() => {
+                            alert('Order finished');
+                            localStorage.removeItem('cart_document');
+                            location.reload();
                         })
-                    localStorage.removeItem('cart_document');
-                    location.reload();
+                        
                 }
             </script>";
     
