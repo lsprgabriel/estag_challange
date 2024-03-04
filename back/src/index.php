@@ -10,6 +10,7 @@ $pageDir = '/services/';
 [ 'postProducts' => $postProducts] = require __DIR__ . $pageDir . 'products.php';
 [ 'getProducts' => $getProducts] = require __DIR__ . $pageDir . 'products.php';
 [ 'deleteProduct' => $deleteProduct] = require __DIR__ . $pageDir . 'products.php';
+[ 'putProduct' => $putProduct] = require __DIR__ . $pageDir . 'products.php';
 [ 'postOrders' => $postOrders] = require __DIR__ . $pageDir . 'orders.php';
 [ 'getOrders' => $getOrders] = require __DIR__ . $pageDir . 'orders.php';
 [ 'postOrderItems' => $postOrderItems] = require __DIR__ . $pageDir . 'items.php';
@@ -80,6 +81,10 @@ switch ($request) {
         } else if(str_contains($request, 'products/')) {
             if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
                 $deleteProduct(getIdFromUrl($request));
+                break;
+            } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $amount = (int) $_POST['amount'];
+                $putProduct(getIdFromUrl($request), $amount);
                 break;
             }
         }

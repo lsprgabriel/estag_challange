@@ -32,5 +32,12 @@ return [
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         return json_encode(['message' => 'Product deleted']);
+    },
+    'putProduct' => function ($id, $amount) {
+        $stmt = myDB->prepare('UPDATE products SET amount = :amount WHERE code = :id');
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':amount', $amount);
+        $stmt->execute();
+        return json_encode(['message' => 'Product updated']);
     }
 ];
