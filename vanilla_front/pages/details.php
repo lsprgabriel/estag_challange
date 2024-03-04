@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php 
+    $orders = file_get_contents('http://localhost/api/orders');
+    $orders = json_decode($orders);
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -39,20 +43,41 @@
                         </tr>
                     </thead>
                     <tbody>
+                    <?php 
+                        $request = $_SERVER['REQUEST_URI'];
+
+                        function getDetailsIdFromUrl($url){
+                            $url = explode('/', $url);
+                            return $url[count($url) - 1];
+                        }
+
+                        $order_items = file_get_contents('http://localhost/api/order_items');
+                        $order_items = json_decode($order_items);
+
+                        function getProductNameByCode($code){
+                            $products = file_get_contents('http://localhost/api/products');
+                            $products = json_decode($products);
+                            foreach ($products as $product) {
+                                if ($product->code == $code) {
+                                    return $product->name;
+                                }
+                            }
+                        }
+
+                        foreach ($order_items as $order_item) {
+                            if ($order_item->order_code == getDetailsIdFromUrl($request)) {
+                                echo "<tr>";
+                                echo "<td>" . getProductNameByCode($order_item->product_code) . "</td>";
+                                echo "<td>" . $order_item->price . "</td>";
+                                echo "<td>" . $order_item->amount . "</td>";
+                                echo "<td>" . $order_item->price * $order_item->amount . "</td>";
+                                echo "</tr>";
+                            }
+                        }
+                    ?>
                     </tbody>
                 </table>
         </section>
     </main>
 </body>
 </html>
-
-<?php 
-    $request = $_SERVER['REQUEST_URI'];
-
-    echo getDetailsIdFromUrl($request);
-
-    function getDetailsIdFromUrl($url){
-        $url = explode('/', $url);
-        return $url[count($url) - 1];
-    }
-?>

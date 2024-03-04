@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php 
+    $orders = file_get_contents('http://localhost/api/orders');
+    $orders = json_decode($orders);
+?>
+
+
 <head>
     <meta charset="UTF-8">
     <script src="../js/history.js" defer></script>
@@ -35,6 +41,24 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php
+                        foreach ($orders as $order) {
+                            echo "<tr>";
+                            echo "<td>" . $order->code . "</td>";
+                            echo "<td>" . $order->tax . "</td>";
+                            echo "<td>" . $order->total . "</td>";
+                            echo "<td><button onclick='onOrderClick(" . $order->code . ")'>Details</button></td>";
+                            echo "</tr>";
+                        }
+                        
+                        echo "
+                            <script>
+                                function onOrderClick(orderCode) {
+                                    window.location.href = '/details/' + orderCode;
+                                }
+                            </script>
+                        ";
+                    ?>
                 </tbody>
             </table>
         </section>

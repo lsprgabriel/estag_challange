@@ -215,6 +215,8 @@
                                 });
                             });
                         })
+                    localStorage.removeItem('cart_document');
+                    location.reload();
                 }
             </script>";
     
