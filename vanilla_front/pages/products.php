@@ -87,7 +87,6 @@
                                     let categories = " . json_encode($categories) . ";
                                     for(let i = 0; i < categories.length; i++){
                                         if(categories[i].code == code){
-                                            console.log(categories[i].name);
                                             return categories[i].name;
                                         }
                                     }

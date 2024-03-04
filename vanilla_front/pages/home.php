@@ -160,7 +160,7 @@
                     }
                 }
 
-                function onCartSubmit(){
+                async function onCartSubmit(){
                     let name = document.getElementById('productsSelector').value;
                     let amount = document.getElementById('amount').value;
                     let tax = document.getElementById('tax').value;
@@ -168,6 +168,28 @@
                     let total = amount * price;
                     code = parseInt(name);
                     name = getProductByCode(parseInt(name));
+
+                    const products = await fetch('http://localhost/api/products');
+                    const productsData = await products.json();
+
+                    const product = productsData.find((product) => product.code == code);
+
+                    if (amount > product.amount) {
+                        alert('Not enough stock');
+                        return;
+                    } else {
+                        let newAmount = product.amount - amount;
+                        console.log(newAmount);
+                        await fetch('http://localhost/api/products/' + code, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: new URLSearchParams({
+                                amount: newAmount,
+                            })
+                        })
+                    }
 
                     addCartData({code, name, amount, tax, price, total});
 
